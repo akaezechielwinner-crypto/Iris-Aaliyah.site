@@ -624,18 +624,16 @@ h1,h2{ font-weight:500; }
 
 <!-- ========== LECTEUR MUSICAL ========== -->
 <div id="lecteur" class="visible">
-  <button id="bouton-musique" onclick="basculerMusique()" aria-label="Lecture / Pause">
+  <button id="bouton-musique" onclick="basculerMusique()" aria-label="Écouter ou mettre en pause Music">
     <svg id="icone-play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
     <svg id="icone-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
   </button>
   <div class="barre-progression"><div class="rempli" id="barre-remplie"></div></div>
-  <span id="libelle-musique">musique douce</span>
+  <span id="libelle-musique">Music</span>
 </div>
 
-<!-- Exporter la chanson Suno en MP3 et la placer à côté de ce fichier -->
-<audio id="audio-musique" loop preload="auto" autoplay>
-  <source src="Music.mp3" type="audio/mpeg">
-</audio>
+<!-- Music.mp3 est le morceau joué par le bouton dès le début de la visite -->
+<audio id="audio-musique" src="Music.mp3" loop preload="auto" autoplay></audio>
 
 <script>
 /* =====================================================
@@ -849,27 +847,13 @@ function actualiserBoutonMusique(joue){
 }
 
 function basculerMusique(){
-  if(!audio.src){
-    if(musiqueActive){
-      arreterMusiqueDouce();
-      musiqueActive = false;
-      actualiserBoutonMusique(false);
-    } else if(demarrerMusiqueDouce()){
-      musiqueActive = true;
-      actualiserBoutonMusique(true);
-    }
-    return;
-  }
   if(audio.paused){
     audio.play()
       .then(()=>{
-        musiqueActive = false;
+        audio.currentTime = audio.currentTime || 0;
         actualiserBoutonMusique(true);
       })
-      .catch(()=>{
-        musiqueActive = demarrerMusiqueDouce();
-        actualiserBoutonMusique(musiqueActive);
-      });
+      .catch(()=> actualiserBoutonMusique(false));
   } else {
     audio.pause();
     actualiserBoutonMusique(false);
@@ -887,7 +871,6 @@ function lancerMusiqueAuDebut(){
   const lecture = audio.play();
   if(!lecture || !lecture.then) return;
   lecture.then(()=>{
-    musiqueActive = false;
     actualiserBoutonMusique(true);
   }).catch(()=>{
     const reprendre = ()=>{
