@@ -66,6 +66,18 @@ body{
 .scene.entree{ animation: sceneEntree var(--duree-lente) var(--ease-doux) forwards; }
 @keyframes sceneEntree{ from{ opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
 @keyframes sceneSortie{ from{ opacity:1; transform:translateY(0);} to{opacity:0; transform:translateY(-18px);} }
+@keyframes texteReveal{
+  from{ opacity:0; transform:translateY(18px); filter:blur(8px); letter-spacing:0.08em; }
+  to{ opacity:1; transform:translateY(0); filter:blur(0); letter-spacing:0; }
+}
+.reveal-texte{
+  opacity:0;
+  --delai-texte:0.2s;
+}
+.scene.actif .reveal-texte{
+  animation:texteReveal 1.1s var(--ease-doux) var(--delai-texte) forwards;
+}
+.reveal-texte::selection{ background:var(--or-clair); color:var(--brun-fonce); }
 
 .eyebrow-date{
   font-size:0.72rem;
@@ -101,6 +113,8 @@ h1,h2{ font-weight:500; }
   max-width:32ch;
   opacity:0.9;
 }
+#scene-accueil h1.reveal-texte{ --delai-texte:0.25s; }
+#scene-accueil p.intro.reveal-texte{ --delai-texte:0.6s; }
 
 /* ---- bouton signature ---- */
 .bouton-doux{
@@ -270,6 +284,7 @@ h1,h2{ font-weight:500; }
   font-size:0.98rem;
   margin-top:0.6rem;
 }
+#scene-enveloppe p.consigne.reveal-texte{ --delai-texte:0.55s; }
 
 /* ============ SCENE 2 : LA LETTRE ============ */
 .papier-lettre{
@@ -315,6 +330,7 @@ h1,h2{ font-weight:500; }
   color:var(--brun-chaud);
   margin-bottom:3.2rem;
 }
+.timeline-titre.reveal-texte{ --delai-texte:0.25s; }
 .timeline{
   display:flex;
   flex-direction:column;
@@ -350,6 +366,7 @@ h1,h2{ font-weight:500; }
   color:var(--or);
   margin-bottom:1.8rem;
 }
+#scene-message .prenom-adresse.reveal-texte{ --delai-texte:0.25s; }
 #scene-message .corps{
   font-size:clamp(1.05rem, 2.4vw, 1.3rem);
   line-height:2;
@@ -415,6 +432,7 @@ h1,h2{ font-weight:500; }
   color:var(--brun-chaud);
   margin-bottom:2.2rem;
 }
+.carte-reponse.reveal-texte{ --delai-texte:0.3s; }
 
 /* ============ ECRAN DE CLOTURE ============ */
 #scene-cloture .merci{
@@ -422,6 +440,7 @@ h1,h2{ font-weight:500; }
   line-height:1.9;
   max-width:36ch;
 }
+#scene-cloture .merci.reveal-texte{ --delai-texte:0.35s; }
 .particule-or{
   position:fixed;
   width:6px; height:6px;
@@ -541,8 +560,8 @@ h1,h2{ font-weight:500; }
 <!-- ========== SCENE 0 — ACCUEIL ========== -->
 <section class="scene actif entree" id="scene-accueil">
   <div class="eyebrow-date" id="date-affichee"></div>
-  <h1>Pour Iris&nbsp;Aaliyah</h1>
-  <p class="intro">J'ai quelque chose que je voudrais te dire…</p>
+  <h1 class="reveal-texte">Pour Iris&nbsp;Aaliyah</h1>
+  <p class="intro reveal-texte">J'ai quelque chose que je voudrais te dire…</p>
   <button class="bouton-doux" onclick="allerA('scene-enveloppe')"><span>Ouvrir ma lettre</span></button>
 </section>
 
@@ -555,7 +574,7 @@ h1,h2{ font-weight:500; }
       <div class="cachet">IA</div>
     </div>
   </div>
-  <p class="consigne">Touche l'enveloppe pour l'ouvrir</p>
+  <p class="consigne reveal-texte">Touche l'enveloppe pour l'ouvrir</p>
 </section>
 
 <!-- ========== SCENE 2 — LA LETTRE ========== -->
@@ -572,7 +591,7 @@ h1,h2{ font-weight:500; }
 
 <!-- ========== SCENE 3 — TIMELINE ========== -->
 <section class="scene" id="scene-histoire">
-  <h2 class="timeline-titre">Et si notre histoire commençait ici&nbsp;?</h2>
+  <h2 class="timeline-titre reveal-texte">Et si notre histoire commençait ici&nbsp;?</h2>
   <div class="timeline">
     <div class="etape" data-e="1"><span class="numero">01</span><span class="texte-etape">Une rencontre</span></div>
     <div class="etape" data-e="2"><span class="numero">02</span><span class="texte-etape">Apprendre à se connaître</span></div>
@@ -583,7 +602,7 @@ h1,h2{ font-weight:500; }
 
 <!-- ========== SCENE 4 — MESSAGE IMPORTANT ========== -->
 <section class="scene" id="scene-message">
-  <div class="prenom-adresse">Iris Aaliyah…</div>
+  <div class="prenom-adresse reveal-texte">Iris Aaliyah…</div>
   <p class="corps">J'aimerais apprendre à mieux te connaître, prendre le temps de construire quelque chose de sincère, et découvrir jusqu'où cette histoire pourrait nous mener.</p>
   <p class="question">Veux-tu qu'on apprenne à mieux se connaître&nbsp;?</p>
   <div class="rangee-boutons">
@@ -594,8 +613,8 @@ h1,h2{ font-weight:500; }
 
 <!-- ========== SCENE ALTERNATIVE — SOUHAITE EN PARLER ========== -->
 <section class="scene" id="scene-parler">
-  <p class="corps message-espace" style="max-width:34ch;">C'est tout à fait bien ainsi. Prends le temps qu'il te faut — je préfère une vraie conversation à une réponse précipitée.</p>
-  <p class="corps" style="max-width:34ch; margin-top:-1rem;">Merci d'avoir lu ces mots jusqu'ici.</p>
+  <p class="corps message-espace reveal-texte" style="max-width:34ch; --delai-texte:0.25s;">C'est tout à fait bien ainsi. Prends le temps qu'il te faut — je préfère une vraie conversation à une réponse précipitée.</p>
+  <p class="corps reveal-texte" style="max-width:34ch; margin-top:-1rem; --delai-texte:0.75s;">Merci d'avoir lu ces mots jusqu'ici.</p>
 </section>
 
 <!-- ========== SCENE 5 — LA DEMANDE ========== -->
@@ -610,7 +629,7 @@ h1,h2{ font-weight:500; }
 
 <!-- ========== SCENE 6 — REPONSE ========== -->
 <section class="scene" id="scene-reponse">
-  <p class="carte-reponse">Ta réponse compte pour moi.</p>
+  <p class="carte-reponse reveal-texte">Ta réponse compte pour moi.</p>
   <div class="rangee-boutons">
     <button class="bouton-doux" onclick="reponseFinalePositive()"><span>Oui, j'aimerais apprendre à te connaître ♡</span></button>
     <button class="bouton-fantome" onclick="reponseFinaleReflexion()">J'aimerais prendre le temps d'y réfléchir</button>
@@ -619,7 +638,7 @@ h1,h2{ font-weight:500; }
 
 <!-- ========== SCENE FINALE — CLOTURE ========== -->
 <section class="scene" id="scene-cloture">
-  <p class="merci" id="texte-cloture">Merci d'avoir pris le temps de lire ma lettre.<br>Peu importe ta réponse, merci d'avoir été sincère.</p>
+  <p class="merci reveal-texte" id="texte-cloture">Merci d'avoir pris le temps de lire ma lettre.<br>Peu importe ta réponse, merci d'avoir été sincère.</p>
 </section>
 
 <!-- ========== LECTEUR MUSICAL ========== -->
